@@ -1,0 +1,5 @@
+
+> tp-auth-app@1.0.0 start
+> node server.js
+
+Auth app listening on http://localhost:3000

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Signup - Auth App</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="https://kit.fontawesome.com/a2d9b6d3f4.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Create Account</h1>
+    <div class="card">
+      <h2><i class="fa fa-user-plus"></i> Signup</h2>
+      <input id="su-username" placeholder="Username (5 lowercase letters)" autocomplete="username" />
+      <input id="su-password" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password" />
+      <button id="signup">Create Account</button>
+      <div id="su-msg" class="msg"></div>
+    </div>
+
+    <div class="footer">
+      <a href="/signin.html">Already have an account? Sign in</a>
+      <span style="color:#fff;opacity:0.7">|</span>
+      <a href="/">Home</a>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
