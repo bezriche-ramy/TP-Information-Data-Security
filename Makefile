@@ -1,46 +1,30 @@
-# Makefile for Authentication Server and Password Cracker
+# Makefile for Information Data Security Assignment
 
 CC = gcc
-CFLAGS = -Wall -Wextra -O2
-LIBS = -lssl -lcrypto
+NVCC = nvcc
+CFLAGS = -Wall -Wextra -std=c99
+NVFLAGS = -O3 -arch=sm_86
+TARGET = auth_system
+GPU_TARGET = gpu_cracker
+SRC = auth_system.c
+GPU_SRC = gpu_cracker.cu
 
-# Targets
-all: server cracker
+all: $(TARGET)
 
-server: server.c
-	$(CC) $(CFLAGS) -o server server.c $(LIBS)
-	@echo "✓ Server compiled successfully"
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
 
-cracker: cracker.c
-	$(CC) $(CFLAGS) -o cracker cracker.c
-	@echo "✓ Cracker compiled successfully"
+# GPU Cracker (requires CUDA)
+gpu: $(GPU_SRC)
+	$(NVCC) $(NVFLAGS) -o $(GPU_TARGET) $(GPU_SRC)
 
 clean:
-	rm -f server cracker
-	@echo "✓ Cleaned build files"
+	rm -f $(TARGET) $(GPU_TARGET) password.txt banned.txt
 
-run-server: server
-	./server
+run: $(TARGET)
+	./$(TARGET)
 
-run-cracker-mode1: cracker
-	./cracker 1
+run-gpu: gpu
+	./$(GPU_TARGET)
 
-run-cracker-mode2: cracker
-	@echo "Usage: make run-cracker-mode2 USERNAME=<username>"
-	@if [ -z "$(USERNAME)" ]; then \
-		echo "Error: Please specify USERNAME=<username>"; \
-		exit 1; \
-	fi
-	./cracker 2 $(USERNAME)
-
-help:
-	@echo "Available targets:"
-	@echo "  make all              - Compile server and cracker"
-	@echo "  make server           - Compile only server"
-	@echo "  make cracker          - Compile only cracker"
-	@echo "  make run-server       - Run the authentication server"
-	@echo "  make run-cracker-mode1 - Run cracker (mode 1: both username & password)"
-	@echo "  make run-cracker-mode2 USERNAME=admin - Run cracker (mode 2: known username)"
-	@echo "  make clean            - Remove compiled files"
-
-.PHONY: all clean run-server run-cracker-mode1 run-cracker-mode2 help
+.PHONY: all clean run gpu run-gpu
